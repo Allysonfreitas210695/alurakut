@@ -7,7 +7,7 @@ const Box = styled.div`
   /* CSS Pré-Pronto */
   margin-bottom: 10px;
   .boxLink {
-    font-size: 14px;
+    font-size: 10px;
     color: #2E7BB4;
     text-decoration: none;
     font-weight: 800;
@@ -61,7 +61,7 @@ const Box = styled.div`
     border-radius: 10000px;
     background-color: #6F92BB;
   }
-  
+
 `; 
 
 export default Box
