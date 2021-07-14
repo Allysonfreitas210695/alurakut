@@ -11,7 +11,11 @@ const GlobalStyle = createGlobalStyle`
 
   body {
     font-family: sans-serif;
-    background-color: #D9E6F6;
+    //background-color: #D9E6F6;
+    background-image: url('https://editorialivre.com.br/wp-content/uploads/2017/04/velozes_furiosos_vigilia_cartaz_capa-800x445.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;  
   }
 
   #__next{

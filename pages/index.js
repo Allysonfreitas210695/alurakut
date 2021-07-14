@@ -4,6 +4,7 @@ import Box from '../src/components/Box';
 import { AlurakutMenu, AlurakutProfileSidebarMenuDefault, OrkutNostalgicIconSet } from '../src/lib/AlurakutCommons';
 import { ProfileRelationsBoxWrapper } from '../src/components/ProfileRelations';
 
+
 function ProfileSidebar({githubUser}) {
   return(
     <Box as="aside">
@@ -22,11 +23,39 @@ function ProfileSidebar({githubUser}) {
   );
 }
 
+function ProfileRelationsBox(props) {
+  return(
+    <ProfileRelationsBoxWrapper >
+      <h2 className="smallTitle">
+          {props.title} ({props.items.length})
+        </h2>
+      <ul>
+        {props.items.map((favoritos, index) => {
+          
+          return(
+            (index <= 5 ? (
+              <li key={favoritos.id}>
+              <a href={`https://github.com/${favoritos.login}`} >
+                <img src={favoritos.avatar_url}/>
+                <span>{favoritos.login}</span>
+              </a>
+            </li>
+            ) 
+            : 
+            ''
+            )
+          )
+        })}   
+      </ul>
+    </ProfileRelationsBoxWrapper>
+  )
+}
+
 export default function Home() {
   const githubUser = "Allysonfreitas210695";
   const [comunidades, setComunidades] = useState([{
     id: '11919191911991',
-    title: 'Eu odeio acordar cedo!',
+    title: 'Eu odeio acordar cedo',
     image: 'https://alurakut.vercel.app/capa-comunidade-01.jpg'
   }]);
   const pessoasFavoritas = [
@@ -35,8 +64,21 @@ export default function Home() {
     'peas', 
     'rafaballerini',
     'marcobrunodev',
-    'felipefialho'
+    'felipefialho',
   ];
+
+   const [seguidores, setSeguidores] = useState([]);
+  //0- pegar o array de dados do github
+      React.useEffect(() => {
+          fetch("https://api.github.com/users/Allysonfreitas210695/followers")
+          .then((Response) =>{
+            return Response.json();
+          }).then((result) =>{
+            setSeguidores(result)
+          })
+      },[]);               
+  //1- criar um box que vai ter um map, baseado nos items do array
+  //que pegamos no gitHub
 
   return (
     <>
@@ -97,20 +139,26 @@ export default function Home() {
 
       {/*area 3*/}
       <div style={{gridArea:'profileRelationsArea'}} className="profileRelationsArea">
+        <ProfileRelationsBox title="Seguidores" items={seguidores}/>
+
         <ProfileRelationsBoxWrapper >
         <h2 className="smallTitle">
             Comunidades ({comunidades.length})
           </h2>
         <ul>
-          {comunidades.map((favoritos) => {
+          {comunidades.map((favoritos, index) => {
             return(
-              <li key={favoritos.id}>
+              (index <= 5 ? (
+                <li key={favoritos.id}>
                 <a href={`/users/${favoritos.title}`} >
                 <img src={favoritos.image}/>
                 <span>{favoritos.title}</span>
                 </a>
               </li>
-
+              ) 
+              : 
+              ''
+              )
             )
           })}   
         </ul>
@@ -121,14 +169,19 @@ export default function Home() {
             Pessoas da comunidade ({pessoasFavoritas.length})
           </h2>
         <ul>
-        {pessoasFavoritas.map((favoritos) => {
+        {pessoasFavoritas.map((favoritos, index) => {
           return(
+            (index <= 5 ? (
             <li key={favoritos}>
               <a href={`/users/${favoritos}`} >
               <img src={`https://github.com/${favoritos}.png`} alt="imagem do usuario github"/>
               <span>{favoritos}</span>
               </a>
             </li>
+            )
+            : 
+            ''
+            )
           )
         })}   
         </ul>
