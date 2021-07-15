@@ -53,11 +53,7 @@ function ProfileRelationsBox(props) {
 
 export default function Home() {
   const githubUser = "Allysonfreitas210695";
-  const [comunidades, setComunidades] = useState([{
-    id: '11919191911991',
-    title: 'Eu odeio acordar cedo',
-    image: 'https://alurakut.vercel.app/capa-comunidade-01.jpg'
-  }]);
+  const [comunidades, setComunidades] = useState([]);
   const pessoasFavoritas = [
     'juunegreiros', 
     'omariosouto', 
@@ -70,15 +66,42 @@ export default function Home() {
    const [seguidores, setSeguidores] = useState([]);
   //0- pegar o array de dados do github
       React.useEffect(() => {
+          //GET
           fetch("https://api.github.com/users/Allysonfreitas210695/followers")
           .then((Response) =>{
             return Response.json();
           }).then((result) =>{
             setSeguidores(result)
           })
+
+          //API GraphQL
+          fetch('https://graphql.datocms.com/', {
+            method: 'POST',
+            headers: {
+              'Authorization': '098d45683ceef5de46bd6c8343eb6c',
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+            },
+            body: JSON.stringify({ "query": `query {
+              allCommunities {
+                id 
+                title
+                imageUrl
+                creatorSlug
+              }
+            }` })
+          })
+          .then(response => response.json()) 
+          .then((respostaCompleta) => {
+            const comunidadesVindasDoDato = respostaCompleta.data.allCommunities;
+            console.log(comunidadesVindasDoDato)
+            setComunidades(comunidadesVindasDoDato)
+          })
       },[]);               
   //1- criar um box que vai ter um map, baseado nos items do array
   //que pegamos no gitHub
+
+
 
   return (
     <>
@@ -100,18 +123,32 @@ export default function Home() {
          
         <Box>
           <h2 className="subTitle">O que voçê deseja fazer?</h2>
-          <form onSubmit={function handlecriarComunidade(event){
-            event.preventDefault();
-
-            const dataForm = new FormData(event.target);
-            const comunidade = {
-              id: new Date().toISOString(),
-              titulo: dataForm.get('title'),
-              image: dataForm.get('image'),
+          <form onSubmit={function handlecriarComunidade(e){
+            e.preventDefault();
+            
+            const dadosDoForm = new FormData(e.target);
+                
+          
+            const comunidadeForm = {
+                  title: dadosDoForm.get('title'),
+                  imageUrl: dadosDoForm.get('image'),
+                  creatorSlug: githubUser,
             }
-
-            const comunidadesAtualizadas = [...comunidades, comunidade]
-            setComunidades(comunidadesAtualizadas);
+           
+            fetch('/api/comunidades', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(comunidadeForm),
+            })
+            .then(async function(response){
+              const dados = await response.json();
+              console.log(dados.registroCriado);
+              const comunidade = dados.registroCriado;
+              const comunidadesAtualizadas = [...comunidades, comunidade];
+              setComunidades(comunidadesAtualizadas)
+            })
           }}>
             <div>
               <input 
@@ -150,8 +187,8 @@ export default function Home() {
             return(
               (index <= 5 ? (
                 <li key={favoritos.id}>
-                <a href={`/users/${favoritos.title}`} >
-                <img src={favoritos.image}/>
+                <a href={`/communities/${favoritos.id}`} >
+                <img src={favoritos.imageUrl}/>
                 <span>{favoritos.title}</span>
                 </a>
               </li>
