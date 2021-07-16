@@ -33,7 +33,6 @@ export function AlurakutMenu({ githubUser }) {
             </Link>
           ))}
         </nav>
-
         <nav>
           <Link href="/login">
               Sair
