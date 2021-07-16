@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
+import nookies from 'nookies';
+import jwt from 'jsonwebtoken';
 import MainGrid from '../src/components/MainGrid';
+import { pessoasFavoritas } from '../src/components/FakeDate'
 import Box from '../src/components/Box';
 import { AlurakutMenu, AlurakutProfileSidebarMenuDefault, OrkutNostalgicIconSet } from '../src/lib/AlurakutCommons';
 import { ProfileRelationsBoxWrapper } from '../src/components/ProfileRelations';
@@ -51,17 +54,9 @@ function ProfileRelationsBox(props) {
   )
 }
 
-export default function Home() {
-  const githubUser = "Allysonfreitas210695";
+export default function Home(props) {
+  const githubUser = props.githubUser;
   const [comunidades, setComunidades] = useState([]);
-  const pessoasFavoritas = [
-    'juunegreiros', 
-    'omariosouto', 
-    'peas', 
-    'rafaballerini',
-    'marcobrunodev',
-    'felipefialho',
-  ];
 
    const [seguidores, setSeguidores] = useState([]);
   //0- pegar o array de dados do github
@@ -228,4 +223,35 @@ export default function Home() {
 
     </>
   );
+}
+
+
+export async function getServerSideProps(ctx) {
+  const cookies = nookies.get(ctx);
+  const token = cookies.USER_TOKEN;
+  const { githubUser } = jwt.decode(token);
+  
+ 
+  // const { isAuthenticated } = await fetch('https://alurakut.vercel.app/api/auth', {
+  //   headers: {
+  //     Authorization: token
+  //   }
+  // }).then((resposta) => resposta.json())
+
+  // console.log("isAuthenticated: ",isAuthenticated);
+
+  // if(!isAuthenticated){
+  //   return{
+  //     redirect: {
+  //       destination: '/login',
+  //       permanent: false,
+  //     },
+  //   }
+  // }
+
+  return {
+    props: {
+      githubUser
+    }, // will be passed to the page component as props
+  }
 }
