@@ -205,7 +205,7 @@ export default function Home(props) {
           return(
             (index <= 5 ? (
             <li key={favoritos}>
-              <a href={`/users/${favoritos}`} >
+              <a href={`https://github.com/${favoritos}`} >
               <img src={`https://github.com/${favoritos}.png`} alt="imagem do usuario github"/>
               <span>{favoritos}</span>
               </a>

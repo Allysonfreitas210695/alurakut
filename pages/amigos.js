@@ -2,29 +2,33 @@ import React from 'react'
 import styled from 'styled-components'
 
 
+const H1 = styled.h1`
+  font-size: 25px;
+  padding: 10px;
+  font-weight: 500;
+  background-color: #308BC5;
+  color: #000;
+  text-align: center;
+`
+
 const BoxContainer = styled.div`
   width: 100%;
-  height: 90vh;
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
 
-  h1{
-      color: #ffffff;
-      font-size: 30px;
-  }
-
   .container{
-    width: 500px;
-    height: 500px;
-    padding: 5px;
+    width: 560px;
+    height: 600px;
+    background: #FFF;
+    padding: 3px;
+    border-radius: 10px;
     display: flex;
     justify-content: center; 
     align-items: center;
     flex-wrap: wrap;
     
-    
-
     ul {
       flex-grow: 1;
       list-style: none;
@@ -35,22 +39,29 @@ const BoxContainer = styled.div`
     font-size: 12px;
     font-weight: 500;
     font-family: sans-serif;
-    color: #FFF;
+    color: #000;
     margin-left: 20px;
     text-align: center;
   }
 
+  a {
+    text-decoration: none;
+    text-align: center;
+  }
+
   img {
-    
     width: 120px;
     height: 120px;
+    margin-bottom: 10px;
     border-radius: 8px;
   }
 
+  a strong{
+    font-size: 12px;
+    color: #000;
   }
 
-
-  
+  }
 `
 
 export default function amigos() {
@@ -66,12 +77,12 @@ export default function amigos() {
       })
 
   }, [])
-
+   
   return (
     <>
-     
+    
+      <H1> Seguidores da AluraKut ({(seguidores.length)})</H1>
       <BoxContainer>
-      <h1 > Seguidores ({(seguidores.length)})</h1>
         <div className="container">
         {
             seguidores.map((seguidores) =>{
@@ -79,8 +90,11 @@ export default function amigos() {
                 <div key={seguidores.id} className="boxContainer">
                   <ul>
                     <li>
-                      <img src={seguidores.avatar_url}/>
-                      <strong>{seguidores.login}</strong>
+                      <a href={seguidores.html_url}>
+                         <img src={seguidores.avatar_url}/>
+                         <strong>{seguidores.login}</strong>
+                      </a>
+                     
                     </li>
                   </ul>
                 </div>
