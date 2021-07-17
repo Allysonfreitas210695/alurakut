@@ -2,13 +2,26 @@ import React from 'react'
 import styled from 'styled-components'
 
 
-const H1 = styled.h1`
-  font-size: 25px;
+const Alinhar = styled.div`
+    font-size: 18px;
+    height: 45px;
+    background-color: #308BC5;
+    
+    a{
+      font-family: sans-serif;
+      
+      color: #FFF;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      text-decoration: none;
+    }
+`
+
+const H1 = styled.div`
   padding: 10px;
   font-weight: 500;
-  background-color: #308BC5;
-  color: #000;
-  text-align: center;
+  color: #FFF;
 `
 
 const BoxContainer = styled.div`
@@ -80,8 +93,12 @@ export default function amigos() {
    
   return (
     <>
-    
-      <H1> Seguidores da AluraKut ({(seguidores.length)})</H1>
+     <Alinhar>
+       <a href="/">
+        <H1> Seguidores da AluraKut ({(seguidores.length)})</H1>
+        Sair 
+       </a>
+     </Alinhar>
       <BoxContainer>
         <div className="container">
         {

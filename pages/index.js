@@ -38,7 +38,7 @@ function ProfileRelationsBox(props) {
           return(
             (index <= 5 ? (
               <li key={favoritos.id}>
-              <a href={`https://github.com/${favoritos.login}`} >
+              <a href={`https://github.com/${favoritos.login}`}  target="_blank">
                 <img src={favoritos.avatar_url}/>
                 <span>{favoritos.login}</span>
               </a>
@@ -182,7 +182,7 @@ export default function Home(props) {
             return(
               (index <= 5 ? (
                 <li key={favoritos.id}>
-                <a href={`/communities/${favoritos.id}`} >
+                <a href={`/communities/${favoritos.id}`}  target="_blank">
                 <img src={favoritos.imageUrl}/>
                 <span>{favoritos.title}</span>
                 </a>
@@ -205,7 +205,7 @@ export default function Home(props) {
           return(
             (index <= 5 ? (
             <li key={favoritos}>
-              <a href={`https://github.com/${favoritos}`} >
+              <a href={`https://github.com/${favoritos}`} target="_blank">
               <img src={`https://github.com/${favoritos}.png`} alt="imagem do usuario github"/>
               <span>{favoritos}</span>
               </a>
